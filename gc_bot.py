@@ -282,17 +282,6 @@ async def spam(ctx, *, args):
         chan = ctx.channel.id
     godspam1()
 
-@slayer.command
-async def killspam(ctx):
-    try:
-        await ctx.message.delete()
-    except:
-        pass
-    finally:
-        global stop
-        stop = False
-
-
 def godspambase():
     global msg
     global chan
@@ -314,6 +303,18 @@ def godspam1():
         t = threading.Thread(target=godspambase)
         threads.append(t)
         t.start()
+
+
+@slayer.command
+async def cancel(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    finally:
+        global stop
+        stop = False
+
 
 if account_type in Answers:
     try:
