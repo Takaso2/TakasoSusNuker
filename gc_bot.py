@@ -326,7 +326,7 @@ async def tokeninfo(ctx, *, token = None):
         except:
             pass
         finally:
-            toks = [str(token), f"Bot {token}"}
+            toks = [str(token), f"Bot {token}"}]
             headers_of_tok = {
                 for tok in toks:
                     "Authorization": tok
