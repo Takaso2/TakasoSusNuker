@@ -323,7 +323,7 @@ async def tokeninfo(ctx, *, token = None):
         await failure.delete()
     else:
         try:
-            await.ctx.message.delete()
+            await ctx.message.delete()
         except:
             pass
         finally:
