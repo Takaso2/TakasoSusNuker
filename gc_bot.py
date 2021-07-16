@@ -79,7 +79,7 @@ async def deletechannels_worker(queue):
             async with aiohttp.ClientSession() as session:
                 channel = queue.get_nowait()
                 try:
-                    request = await session.delete(f"https://discordapp.com/api/v9/channels/{channel.id}", headers=headers, ssl=False)
+                    request = await session.delete(f"https://discordapp.com/api/v9/channels/{channel.id}", headers=headers, ssl=False, proxies={"http": proxy})
                 except:
                     pass
                 if request.status == 200:
@@ -314,6 +314,55 @@ async def cancel(ctx):
     finally:
         global stop
         stop = False
+
+@slayer.command()
+async def tokeninfo(ctx, *, token = None):
+    if token == None:
+        failure = await ctx.send("You forgot the token.")
+        asyncio.sleep(4)
+        await failure.delete()
+    else:
+        try:
+            await.ctx.message.delete()
+        except:
+            pass
+        finally:
+            headers_of_tok = {
+                "Authorization": str(token)
+            }
+            r = requests.get("https://discord.com/api/v9/users/@me", headers=headers_of_tok, proxies={"http": proxy})
+            print(r.text)
+
+
+@slayer.command()
+async def scrape_messages(ctx, ID = None):
+    global Channel_ID
+    Channel_ID = ID
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    if ID == None:
+        s = await ctx.send("Insert an ID.")
+        asyncio.sleep(4)
+        await s.delete()
+    else:
+        try:
+            message_scraper()
+        except:
+            pass
+
+def message_scraper():
+    global Channel_ID
+    headers = {
+        "Authorization": usertoken
+    }
+
+    r = requests.get(
+        f"https://discord.com/api/v8/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
+    jsonn = json.loads(r.text)
+    for value in jsonn:
+        print(f"Name: {value['author']['username']}, Message: {value['content']}", "\n")
 
 
 if account_type in Answers:
