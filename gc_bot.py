@@ -79,7 +79,7 @@ async def deletechannels_worker(queue):
             async with aiohttp.ClientSession() as session:
                 channel = queue.get_nowait()
                 try:
-                    request = await session.delete(f"https://discordapp.com/api/v9/channels/{channel.id}", headers=headers, ssl=False, proxies={"http": proxy})
+                    request = await session.delete(f"https://discordapp.com/api/v9/channels/{channel.id}", headers=headers, ssl=False)
                 except:
                     pass
                 if request.status == 200:
@@ -318,7 +318,7 @@ async def cancel(ctx):
 async def tokeninfo(ctx, *, token = None):
     if token == None:
         failure = await ctx.send("You forgot the token.")
-        asyncio.sleep(4)
+        time.sleep(4)
         await failure.delete()
     else:
         try:
@@ -326,11 +326,16 @@ async def tokeninfo(ctx, *, token = None):
         except:
             pass
         finally:
+            toks = [str(token), f"Bot {token}"}
             headers_of_tok = {
-                "Authorization": str(token)
+                for tok in toks:
+                    "Authorization": tok
             }
             r = requests.get("https://discord.com/api/v9/users/@me", headers=headers_of_tok, proxies={"http": proxy})
-            print(r.text)
+            try:
+                await.ctx(f"```\n{r.text}\n```")
+            except:
+                pass
 
 
 @slayer.command()
