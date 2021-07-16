@@ -79,20 +79,20 @@ async def deletechannels_worker(queue):
             async with aiohttp.ClientSession() as session:
                 channel = queue.get_nowait()
                 try:
-                    request = await session.delete(f"https://discordapp.com/api/v9/channels/{channel.id}", headers=headers, ssl=False, proxies={"http": proxy})
+                    async with session.delete(f"https://discordapp.com/api/v9/channels/{channel.id}", headers=headers, ssl=False, proxies={"http": proxy}) as request:
+                        if request.status == 200:
+                            print(f"Deleted Channel - {channel}")
+                            queue.task_done()
+                        elif request.status == 429:
+                            json = await request.json()
+                            print("Rape limited")
+                            await asyncio.sleep(json['retry_after'])
+                            queue.put_nowait(channel)
+                        elif request.status in [401, 404, 403]:
+                            return
+                        await session.close()
                 except:
                     pass
-                if request.status == 200:
-                    print(f"Deleted Channel - {channel}")
-                    queue.task_done()
-                elif request.status == 429:
-                    json = await request.json()
-                    print(f"Rape limited")
-                    await asyncio.sleep(json['retry_after'])
-                    queue.put_nowait(channel)
-                elif request.status in [401, 404, 403]:
-                    return
-                await session.close()
         except Exception as e:
             if isinstance(e, asyncio.QueueEmpty):
                 await session.close()
@@ -307,13 +307,12 @@ def godspam1():
 
 @slayer.command
 async def cancel(ctx):
+    global stop
+    stop = False
     try:
         await ctx.message.delete()
     except:
         pass
-    finally:
-        global stop
-        stop = False
 
 @slayer.command()
 async def tokeninfo(ctx, *, token = None):
