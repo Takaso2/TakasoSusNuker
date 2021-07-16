@@ -71,7 +71,7 @@ async def on_ready():
   print("\nSuccesfully connected.")
 
 headers = {
-    "Authorization": your_token
+    "Authorization": str(usertoken)
     }
 
 async def deletechannels_worker(queue):
@@ -269,6 +269,53 @@ async def banall():
             pass
 
 
+@slayer.command()
+async def spam(ctx, *, args):
+    global msg
+    global chan
+    global stop
+    stop = True
+    msg = args
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    finally:
+        chan = ctx.channel.id
+    godspam1()
+
+@slayer.command
+async def killspam(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    finally:
+        global stop
+        stop = False
+
+
+def godspambase():
+    global msg
+    global chan
+    global stop
+    payload = {
+        "content" : msg
+        }
+    try:
+        while True:
+            r = requests.post(f"https://discord.com/api/v9/channels/{chan}/messages", headers=headers, data=payload, proxies={"http": proxy})
+            if stop == False:
+                break    
+    except:
+        pass
+
+def godspam1():
+    threads = []
+    for i in range(5):
+        t = threading.Thread(target=godspambase)
+        threads.append(t)
+        t.start()
 
 if account_type in Answers:
     try:
