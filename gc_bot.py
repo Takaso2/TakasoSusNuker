@@ -35,6 +35,7 @@ replit.clear()
 if account_type in Answers:
     try:
         slayer = commands.Bot(prefix, self_bot=True)
+        slayer.remove_command("help")
         headers = {
           "Authorization": usertoken
           }
@@ -46,6 +47,7 @@ else:
         if intenzioni in Answers:
             intents = discord.Intents().all()
             slayer = commands.Bot(prefix, intents=intents)
+            slayer.remove_command("help")
             headers = {
                 "authorization": f"Bot {usertoken}"
                 }
