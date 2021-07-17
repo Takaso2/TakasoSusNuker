@@ -406,7 +406,7 @@ def godspambase2():
     global Channel_ID
     global stop
     payload = {
-        "content" : f"> {(random.choice(scraped))} {(random.choice(scraped))} {(random.choice(scraped))} {(random.choice(scraped))}\nHeil {slayer.user} @everyone"
+        "content" : f"> <@{(random.choice(scraped))}> <@{(random.choice(scraped))}> <@{(random.choice(scraped))}> <@{(random.choice(scraped))}>\nHeil {slayer.user} @everyone"
         }
     try:
         while True:
@@ -422,6 +422,53 @@ def godspam2():
         t = threading.Thread(target=godspambase2)
         threads.append(t)
         t.start()
+
+
+@slayer.command()
+async def react(ctx):
+    global Channel_ID
+    Channel_ID = ctx.channel.id
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    try:
+        message_scraper_react()
+    finally:
+        await addall()
+
+scraped_2 = []
+def message_scraper_react():
+    global Channel_ID
+    headers = {
+        "Authorization": usertoken
+    }
+
+    r = requests.get(
+        f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
+    jsonn = json.loads(r.text)
+    for value in jsonn:
+        ll2 = value['id']
+        scraped_2.append(ll2)
+
+
+def react_messages(session):
+    tasks = []
+    for emoji_to_add in scraped_2:
+        try:
+            tasks.append(session.put(f"https://discord.com/api/v9/channels/{Channel_ID}/messages/{emoji_to_add}/reactions/%F0%9F%A5%B6/%40me", headers=headers))
+        except:
+            pass
+    return tasks
+
+async def addall():
+    async with aiohttp.ClientSession() as session:
+        tasks = get_chans(session)
+        try:
+            await asyncio.gather(*tasks)
+        except:
+            pass 
+
 
 
 if account_type in Answers:
