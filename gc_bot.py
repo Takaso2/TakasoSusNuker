@@ -75,6 +75,7 @@ async def on_message(message):
             await message.delete()
         except:
             pass
+    await slayer.process_commands(message)
 
 
 headers = {
