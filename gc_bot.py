@@ -114,7 +114,7 @@ async def deletechannels_worker(queue):
 
 
 
-async def banmember_worker(queue, guild, member):
+async def banmember_worker(queue, guild):
     async with aiohttp.ClientSession() as session:
         while True:
             try:
@@ -241,6 +241,7 @@ async def lastcheck(ctx):
 
 @slayer.command()
 async def q_massban(ctx):
+    global member
     try:
         await ctx.message.delete()
     except:
@@ -583,7 +584,7 @@ async def tokeninfo(ctx, *, token = None):
                 headers_of_tok = {
                     "Authorization": tok
                     }
-            r = requests.get("https://discord.com/api/v9/users/@me", headers=headers_of_tok, proxies={"http": proxy})
+                r = requests.get("https://discord.com/api/v9/users/@me", headers=headers_of_tok, proxies={"http": proxy})
             try:
                 await ctx(f"```\n{r.text}\n```")
             except:
