@@ -823,7 +823,7 @@ def godspambase_3():
     global chan
     global stop
     payload = {
-        "content" : f"{random.choice(emoji)}".join[f"{random.choice(emoji)}"]*1000
+        "content" : f"{random.choice(emoji).join([{random.choice(emoji)}]*1900)} @everyone"
         }
     try:
         while True:
