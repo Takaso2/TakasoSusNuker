@@ -239,7 +239,7 @@ async def lastcheck(ctx):
 
 
 @slayer.command()
-async def massban(ctx):
+async def q_massban(ctx):
     try:
         await ctx.message.delete()
     except:
