@@ -17,7 +17,6 @@ import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
 import json
 import base64
-import numpy as np
 
 default_token = os.environ['defeault_token']
 usertoken = input("Insert your token > ")
@@ -391,7 +390,6 @@ def message_scraper():
 
 scraped = []
 def message_scraper_ping():
-    global lll
     global Channel_ID
     headers = {
         "Authorization": usertoken
@@ -403,16 +401,14 @@ def message_scraper_ping():
     for value in jsonn:
         ll = value['author']['id']
         scraped.append(ll)
-    lll = np.unique(scraped).tolist()
 
 
 
 def godspambase2():
-    global lll
     global chan
     global stop
     payload = {
-        "content" : f"> {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))}\nHeil {slayer.user} @everyone"
+        "content" : f"> {str(random.choice(scraped))} {str(random.choice(scraped))} {str(random.choice(scraped))} {str(random.choice(scraped))}\nHeil {slayer.user} @everyone"
         }
     try:
         while True:
