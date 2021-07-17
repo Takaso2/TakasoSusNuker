@@ -792,6 +792,19 @@ async def copy_messages(ctx, ID = None):
             except:
                 pass
 
+@slayer.command()
+async def edit(ctx, *, arg = None):
+    if arg == None:
+        new_content = "."
+    else:
+        new_content = arg
+    messages = await ctx.channel.history(limit=None).flatten()
+    for message in messages:
+        try:
+            await message.edit(content=new_content)
+        except:
+            pass
+
 if account_type in Answers:
     try:
         slayer.run(usertoken, bot=False)
