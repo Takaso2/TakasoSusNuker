@@ -68,7 +68,7 @@ async def on_ready():
   print("\nSuccesfully connected.")
 
 
-@slayer.event()
+@slayer.event
 async def on_message(message):
     if message.content == f"{prefix}help":
         try:
