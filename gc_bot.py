@@ -763,6 +763,12 @@ async def audit_logs(ctx):
     elif r.status_code == 429:
         print("Rape limited")
         time.sleep(jj['retry_after'])
+    else:
+        try:
+            for value in jsus:
+                await ctx.send(f"```\n{value}\n```")
+        except:
+            pass
 
 
 if account_type in Answers:
