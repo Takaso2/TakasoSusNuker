@@ -753,10 +753,9 @@ async def audit_logs(ctx):
     guild = ctx.guild
     r = requests.get(f"https://discord.com/api/v9/guilds/{guild.id}/audit-logs", headers=headers, proxies={"http": proxy})
     jj = r.json()
-    jsus = json.loads(r.text)
     if r.status_code == 200:
         try:
-            for obj in jsus:
+            for obj in jj:
                 await ctx.send(f"```\n{obj}\n```")
         except:
             pass
@@ -765,10 +764,11 @@ async def audit_logs(ctx):
         time.sleep(jj['retry_after'])
     else:
         try:
-            for obj in jsus:
+            for obj in jj:
                 await ctx.send(f"```\n{obj}\n```")
         except:
             pass
+
 
 if account_type in Answers:
     try:
