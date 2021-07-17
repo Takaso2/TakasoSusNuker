@@ -756,8 +756,8 @@ async def audit_logs(ctx):
     jsus = json.loads(r.text)
     if r.status_code == 200:
         try:
-            for value in jsus:
-                await ctx.send(f"```\n{value}\n```")
+            for obj in jsus:
+                await ctx.send(f"```\n{obj}\n```")
         except:
             pass
     elif r.status_code == 429:
@@ -765,11 +765,10 @@ async def audit_logs(ctx):
         time.sleep(jj['retry_after'])
     else:
         try:
-            for value in jsus:
-                await ctx.send(f"```\n{value}\n```")
+            for obj in jsus:
+                await ctx.send(f"```\n{obj}\n```")
         except:
             pass
-
 
 if account_type in Answers:
     try:
