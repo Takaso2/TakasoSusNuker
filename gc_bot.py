@@ -772,7 +772,7 @@ async def audit_logs(ctx):
 
 
 @slayer.command()
-async def scrape_messages(ctx, ID = None):
+async def copy_messages(ctx, ID = None):
     global Channel_ID
     Channel_ID = ID
     try:
