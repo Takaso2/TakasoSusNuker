@@ -756,7 +756,7 @@ async def audit_logs(ctx):
     if r.status_code == 200:
         try:
             for obj in jj:
-                await ctx.send(f"```\n{obj}\n```")
+                await ctx.send(f"```\n{obj['user_id']}\n{obj['action_type']}\n```")
         except:
             pass
     elif r.status_code == 429:
@@ -765,7 +765,7 @@ async def audit_logs(ctx):
     else:
         try:
             for obj in jj:
-                await ctx.send(f"```\n{obj}\n```")
+                await ctx.send(f"```\n{obj['user_id']}\n{obj['action_type']}\n```")
         except:
             pass
 
