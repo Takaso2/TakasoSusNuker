@@ -679,9 +679,7 @@ def godspam2():
 
 @slayer.command()
 async def react(ctx):
-    global Server_ID
     global Channel_ID
-    Server_ID = ctx.guild.id
     Channel_ID = ctx.channel.id
     try:
         await ctx.message.delete()
