@@ -68,6 +68,16 @@ proxy = next(proxy_pool)
 async def on_ready():
   print("\nSuccesfully connected.")
 
+
+@slayer.event()
+async def on_message(message):
+    if message.content == f"{prefix}help":
+        try:
+            await message.delete()
+        except:
+            pass
+
+
 headers = {
     "Authorization": str(usertoken)
     }
@@ -557,7 +567,8 @@ async def everyone(ctx):
         pass
     message_scraper_ping()
     try:
-        godspam2()
+        while True:
+            godspam2()
     except:
         pass
     
@@ -607,7 +618,7 @@ def godspambase2():
 
 def godspam2():
     threads = []
-    for i in range(5):
+    for i in range(50):
         t = threading.Thread(target=godspambase2)
         threads.append(t)
         t.start()
