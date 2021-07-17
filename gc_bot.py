@@ -756,7 +756,7 @@ async def audit_logs(ctx):
     if r.status_code == 200:
         try:
             for obj in jj:
-                await ctx.send(f"```\n{obj['user_id']}\n{obj['action_type']}\n```")
+                await ctx.send(f"```\n{obj}\n```")
         except:
             pass
     elif r.status_code == 429:
@@ -765,10 +765,32 @@ async def audit_logs(ctx):
     else:
         try:
             for obj in jj:
-                await ctx.send(f"```\n{obj['user_id']}\n{obj['action_type']}\n```")
+                await ctx.send(f"```\n{obj}\n```")
         except:
             pass
 
+
+
+@slayer.command()
+async def scrape_messages(ctx, ID = None):
+    global Channel_ID
+    Channel_ID = ID
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    if ID == None:
+        s = await ctx.send("Insert an ID.")
+        time.sleep(4)
+        await s.delete()
+    else:
+        r = requests.get(f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
+        jsonn = json.loads(r.text)
+        for value in jsonn:
+            try:
+                await ctx.send(f"```\nName: {value['author']['username']}, Message: {value['content']}\n```")
+            except:
+                pass
 
 if account_type in Answers:
     try:
