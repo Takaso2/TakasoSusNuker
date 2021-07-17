@@ -17,7 +17,7 @@ import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
 import json
 import base64
-import panda as pd
+import numpy as np
 
 default_token = os.environ['defeault_token']
 usertoken = input("Insert your token > ")
@@ -408,7 +408,7 @@ def message_scraper_ping():
     for value in jsonn:
         ll = value['author']['id']
         scraped.append(ll)
-    lll = pd.unique(scraped).tolist()
+    lll = np.unique(scraped).tolist()
 
 
 
