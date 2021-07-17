@@ -360,21 +360,16 @@ async def scrape_messages(ctx, ID = None):
 
 
 @slayer.command()
-async def everyone(ctx, *, msg = None):
+async def everyone(ctx):
     global Channel_ID
     Channel_ID = ctx.channel.id
     global maaa
-    if msg == None:
-        maa = "@everyone"
-    else:
-        maa = msg
     try:
         await ctx.message.delete()
     except:
         pass
     finally:
         message_scraper_ping()
-    msg = random.choice(lll)
     try:
         godspam2()
     except:
@@ -413,12 +408,11 @@ def message_scraper_ping():
 
 
 def godspambase2():
-    
-    global msg
+    global lll
     global chan
     global stop
     payload = {
-        "content" : f"> {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))}\n{msg}"
+        "content" : f"> {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))}\nHeil {slayer.user} @everyone"
         }
     try:
         while True:
