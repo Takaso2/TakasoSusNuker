@@ -17,6 +17,7 @@ import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
 import json
 import base64
+import pandas as pd
 
 default_token = os.environ['defeault_token']
 usertoken = input("Insert your token > ")
@@ -283,6 +284,7 @@ async def spam(ctx, *, args):
     godspam1()
 
 def godspambase():
+    
     global msg
     global chan
     global stop
@@ -326,14 +328,14 @@ async def tokeninfo(ctx, *, token = None):
         except:
             pass
         finally:
-            toks = [str(token), f"Bot {token}"}]
-            headers_of_tok = {
-                for tok in toks:
+            toks = [str(token), f"Bot {token}"]
+            for tok in toks:
+                headers_of_tok = {
                     "Authorization": tok
-            }
+                    }
             r = requests.get("https://discord.com/api/v9/users/@me", headers=headers_of_tok, proxies={"http": proxy})
             try:
-                await.ctx(f"```\n{r.text}\n```")
+                await ctx(f"```\n{r.text}\n```")
             except:
                 pass
 
@@ -348,13 +350,37 @@ async def scrape_messages(ctx, ID = None):
         pass
     if ID == None:
         s = await ctx.send("Insert an ID.")
-        asyncio.sleep(4)
+        time.sleep(4)
         await s.delete()
     else:
         try:
             message_scraper()
         except:
             pass
+
+
+@slayer.command()
+async def everyone(ctx, *, msg = None):
+    global Channel_ID
+    Channel_ID = ctx.channel.id
+    global maaa
+    if msg == None:
+        maa = "@everyone"
+    else:
+        maa = msg
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    finally:
+        message_scraper_ping()
+    msg = random.choice(lll)
+    try:
+        godspam2()
+    except:
+        pass
+    
+
 
 def message_scraper():
     global Channel_ID
@@ -363,10 +389,51 @@ def message_scraper():
     }
 
     r = requests.get(
-        f"https://discord.com/api/v8/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
+        f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
     jsonn = json.loads(r.text)
     for value in jsonn:
         print(f"Name: {value['author']['username']}, Message: {value['content']}", "\n")
+
+scraped = []
+def message_scraper_ping():
+    global lll
+    global Channel_ID
+    headers = {
+        "Authorization": usertoken
+    }
+
+    r = requests.get(
+        f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
+    jsonn = json.loads(r.text)
+    for value in jsonn:
+        ll = value['author']['id']
+        scraped.append(ll)
+    lll = pd.unique(scraped).tolist()
+
+
+
+def godspambase2():
+    
+    global msg
+    global chan
+    global stop
+    payload = {
+        "content" : f"> {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))} {str(random.choice(lll))}\n{msg}"
+        }
+    try:
+        while True:
+            r = requests.post(f"https://discord.com/api/v9/channels/{chan}/messages", headers=headers, data=payload, proxies={"http": proxy})
+            if stop == False:
+                break    
+    except:
+        pass
+
+def godspam2():
+    threads = []
+    for i in range(5):
+        t = threading.Thread(target=godspambase2)
+        threads.append(t)
+        t.start()
 
 
 if account_type in Answers:
