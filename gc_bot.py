@@ -809,7 +809,6 @@ emoji = ":joy::rofl::cold_face::joy::rofl::cold_face::joy::rofl::cold_face::joy:
 
 @slayer.command()
 async def kill_spam(ctx):
-    global msg
     global chan
     global stop
     stop = True
