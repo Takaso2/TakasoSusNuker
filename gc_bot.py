@@ -17,7 +17,7 @@ import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
 import json
 import base64
-import pandas as pd
+import panda as pd
 
 default_token = os.environ['defeault_token']
 usertoken = input("Insert your token > ")
