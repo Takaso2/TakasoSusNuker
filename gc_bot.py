@@ -744,7 +744,25 @@ async def q_nuke(ctx):
         pass
 
 
-
+@slayer.command()
+async def audit_logs(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    guild = ctx.guild
+    r = requests.get(f"https://discord.com/api/v9/guilds/{guild.id}/audit-logs", headers=headers, proxies={"http": proxy})
+    jj = r.json()
+    jsus = json.loads(r.text)
+    if r.status == 200:
+        try:
+            for value in jsus:
+                await ctx.send(f"```\n{value}\n```")
+        except:
+            pass
+    elif r.status == 429:
+        print("Rape limited")
+        time.sleep(jj['retry_after'])
 
 
 if account_type in Answers:
