@@ -449,10 +449,12 @@ def message_scraper_react():
     jsonn = json.loads(r.text)
     for value in jsonn:
         ll2 = value['id']
+        print(ll2)
         scraped_2.append(ll2)
 
 
 def react_messages(session):
+    global Channel_ID
     tasks = []
     for emoji_to_add in scraped_2:
         try:
