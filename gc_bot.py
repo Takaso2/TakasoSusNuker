@@ -437,7 +437,7 @@ async def react(ctx):
     try:
         message_scraper_react()
     finally:
-        await addall()
+        react_messages()
 
 scraped_2 = []
 def message_scraper_react():
@@ -454,24 +454,19 @@ def message_scraper_react():
         scraped_2.append(ll2)
 
 
-def react_messages(session):
+def react_messages():
     global Channel_ID
-    tasks = []
     for emoji_to_add in scraped_2:
         try:
-            tasks.append(session.put(f"https://discord.com/api/v9/channels/{Channel_ID}/messages/{emoji_to_add}/reactions/%F0%9F%A5%B6/%40me", headers=headers))
+            r = requests.put(f"https://discord.com/api/v9/channels/{Channel_ID}/messages/{emoji_to_add}/reactions/%F0%9F%A5%B6/%40me", headers=headers)
+            if r.status == 200:
+                print("Reacted message")    
+            elif r.status == 429:
+                json = r.json()
+                print("Rape limited")
+                time.sleep(json['retry_after'])
         except:
             pass
-    return tasks
-
-async def addall():
-    async with aiohttp.ClientSession() as session:
-        tasks = react_messages(session)
-        try:
-            await asyncio.gather(*tasks)
-        except:
-            pass 
-
 
 
 if account_type in Answers:
