@@ -426,7 +426,9 @@ def godspam2():
 
 @slayer.command()
 async def react(ctx):
+    global Server_ID
     global Channel_ID
+    Server_ID = ctx.guild.id
     Channel_ID = ctx.channel.id
     try:
         await ctx.message.delete()
@@ -449,7 +451,6 @@ def message_scraper_react():
     jsonn = json.loads(r.text)
     for value in jsonn:
         ll2 = value['id']
-        print(ll2)
         scraped_2.append(ll2)
 
 
@@ -465,7 +466,7 @@ def react_messages(session):
 
 async def addall():
     async with aiohttp.ClientSession() as session:
-        tasks = get_chans(session)
+        tasks = react_messages(session)
         try:
             await asyncio.gather(*tasks)
         except:
