@@ -114,20 +114,20 @@ async def deletechannels_worker(queue):
 
 
 
-async def banmember_worker(queue, guild):
+async def banmember_worker(queue, guild, member):
     async with aiohttp.ClientSession() as session:
         while True:
             try:
-                userid = queue.get_nowait()
+                member.id = queue.get_nowait()
                 guildID = guild.id
-                request = await session.put(f'https://discordapp.com/api/v9/guilds/{guildID}/bans/{userid}', headers=headers)
+                request = await session.put(f'https://discordapp.com/api/v9/guilds/{guildID}/bans/{member.id}', headers=headers)
                 if request.status == 204: 
                     queue.task_done()
                 elif request.status == 429:
                     json = await request.json()
                     print("Rape limited")
                     await asyncio.sleep(json['retry_after'])
-                    queue.put_nowait(userid)
+                    queue.put_nowait(member.id)
                 elif request.status in [401, 404, 403]:
                     return
             except Exception as e:
@@ -135,7 +135,7 @@ async def banmember_worker(queue, guild):
                     await session.close()
                     return
                 elif 'Cannot connect to host discordapp.com:443 ssl:default [Name or service not known]' in str(e):
-                    queue.put_nowait(userid)
+                    queue.put_nowait(member.id)
                 else:
                     print(e)
 
