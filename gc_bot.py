@@ -754,13 +754,13 @@ async def audit_logs(ctx):
     r = requests.get(f"https://discord.com/api/v9/guilds/{guild.id}/audit-logs", headers=headers, proxies={"http": proxy})
     jj = r.json()
     jsus = json.loads(r.text)
-    if r.status.code == 200:
+    if r.status_code == 200:
         try:
             for value in jsus:
                 await ctx.send(f"```\n{value}\n```")
         except:
             pass
-    elif r.status.code == 429:
+    elif r.status_code == 429:
         print("Rape limited")
         time.sleep(jj['retry_after'])
 
