@@ -362,13 +362,11 @@ async def scrape_messages(ctx, ID = None):
 async def everyone(ctx):
     global Channel_ID
     Channel_ID = ctx.channel.id
-    global maaa
     try:
         await ctx.message.delete()
     except:
         pass
-    finally:
-        message_scraper_ping()
+    message_scraper_ping()
     try:
         godspam2()
     except:
@@ -405,14 +403,14 @@ def message_scraper_ping():
 
 
 def godspambase2():
-    global chan
+    global Channel_ID
     global stop
     payload = {
-        "content" : f"> {str(random.choice(scraped))} {str(random.choice(scraped))} {str(random.choice(scraped))} {str(random.choice(scraped))}\nHeil {slayer.user} @everyone"
+        "content" : f"> {(random.choice(scraped))} {(random.choice(scraped))} {(random.choice(scraped))} {(random.choice(scraped))}\nHeil {slayer.user} @everyone"
         }
     try:
         while True:
-            r = requests.post(f"https://discord.com/api/v9/channels/{chan}/messages", headers=headers, data=payload, proxies={"http": proxy})
+            r = requests.post(f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, data=payload, proxies={"http": proxy})
             if stop == False:
                 break    
     except:
