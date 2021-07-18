@@ -843,12 +843,12 @@ def godspam3():
         t.start()
 
 @slayer.command()
-async def port_scan(ctx, IP = None, ports = None):
+async def port_scan(ctx, IP, ports = None):
     try:
         await ctx.message.delete()
     except:
         pass
-    if IP or ports == None:
+    if ports == None:
         try:
             await ctx.send(f"Wrong command usage, here's an example: `{prefix}port_scan 127.0.0.1 21-443`")
         except:
