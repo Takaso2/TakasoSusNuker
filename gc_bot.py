@@ -841,22 +841,6 @@ def godspam3():
         threads.append(t)
         t.start()
 
-@slayer.command()
-async def distract(ctx):
-    try:
-        await ctx.message.delete()
-    except:
-        pass
-    try:
-        si = await ctx.send(".")
-    except:
-        pass
-    for _ in range(100):
-        try:
-            await si.edit(content="```\nLoading...", content="█"*_, content=f"[ {_}% ]\n```")
-        except:
-            pass
-
 if account_type in Answers:
     try:
         slayer.run(usertoken, bot=False)
@@ -869,5 +853,6 @@ else:
     except:
         print("\n%s[!] Warning [!]%s" % (blue(), reset()))
         print("\nLooks like your %stoken%s is %sinvalid!%s" % (yellow(), reset(), red(), reset()))
+
 
 fail = input("\n%sPress any key to exit%s > " % (red(), reset()))
