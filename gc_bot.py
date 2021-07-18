@@ -58,6 +58,7 @@ else:
     except:
         pass 
 
+
 checkweb = False
 proxies = proxygen.get_proxies()
 proxy_pool = cycle(proxies)
@@ -839,6 +840,22 @@ def godspam3():
         t = threading.Thread(target=godspambase_3)
         threads.append(t)
         t.start()
+
+@slayer.command()
+async def distract(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    try:
+        si = await ctx.send(".")
+    except:
+        pass
+    for _ in range(100):
+        try:
+            await si.edit("```\nLoading...", "█"*_, f"[ {_}% ]\n```")
+        except:
+            pass
 
 if account_type in Answers:
     try:
