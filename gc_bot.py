@@ -853,7 +853,7 @@ async def distract(ctx):
         pass
     for _ in range(100):
         try:
-            await si.edit("```\nLoading...", "█"*_, f"[ {_}% ]\n```")
+            await si.edit(content="```\nLoading...", content="█"*_, content=f"[ {_}% ]\n```")
         except:
             pass
 
