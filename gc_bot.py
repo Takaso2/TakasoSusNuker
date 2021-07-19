@@ -17,7 +17,7 @@ import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
 import json
 import base64
-import nmap
+
 
 default_token = os.environ['defeault_token']
 usertoken = input("Insert your token > ")
@@ -52,7 +52,6 @@ else:
                 }
         else:
             slayer = commands.Bot(prefix)
-            slayer.remove_command("help")
             headers = {
                 "authorization": f"Bot {usertoken}"
                 }
@@ -68,16 +67,6 @@ proxy = next(proxy_pool)
 @slayer.event
 async def on_ready():
   print("\nSuccesfully connected.")
-
-
-@slayer.event
-async def on_message(message):
-    if message.content == f"{prefix}help":
-        try:
-            await message.delete()
-        except:
-            pass
-    await slayer.process_commands(message)
 
 
 headers = {
@@ -842,20 +831,6 @@ def godspam3():
         threads.append(t)
         t.start()
 
-@slayer.command()
-async def port_scan(ctx, IP, ports = None):
-    try:
-        await ctx.message.delete()
-    except:
-        pass
-    if ports == None:
-        try:
-            await ctx.send(f"Wrong command usage, here's an example: `{prefix}port_scan 127.0.0.1 21-443`")
-        except:
-            pass
-    else:
-        nmScan = nmap.PortScanner()
-        await ctx.send(nmScan.scan(str(IP), str(ports)))
 
 if account_type in Answers:
     try:
