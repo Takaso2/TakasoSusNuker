@@ -405,12 +405,10 @@ async def ccr(ctx):
     serwer = str(ctx.guild.id)
     threadchan()
 
-tipi = ["0", "2"]
-
 def chanflood():
     payload = {
         "name": "heil-takaso",
-        "type": random.choice(tipi)
+        "type": "0"
     }
     try:
         while True:
