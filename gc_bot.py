@@ -831,7 +831,7 @@ def godspam3():
         threads.append(t)
         t.start()
 
-@takaso.command()
+@slayer.command()
 async def nazi(ctx):
   global raid
   raid = True
