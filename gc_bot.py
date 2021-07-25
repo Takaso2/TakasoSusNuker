@@ -551,8 +551,10 @@ def godspam1():
 
 @slayer.command()
 async def cancel(ctx):
+    global raid
     global stop
     stop = False
+    raid = False
     try:
         await ctx.message.delete()
     except:
@@ -949,7 +951,7 @@ SIEG HEIL TAKASO!
   nazi.set_footer(text="SIEG HEIL",icon_url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif") 
   while raid:
     try:
-        await ctx.send(f"@everyone Flooded by {slayer.user}\n.\n.\n.\n.", embed=nazi)
+        await ctx.send(f"@everyone Flooded by {slayer.user}" + 'ﾠﾠ'+'\n' * 300 + 'ﾠﾠ', embed=nazi)
     except:
         pass
 
