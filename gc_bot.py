@@ -478,7 +478,7 @@ async def idinfo(ctx, *, ID = None):
         if bam == None:
             print()
         else:
-            em.set_image(bam)
+            em.set_image(url=bam)
         try:
             await ctx.send(embed=em, delete_after=15)
         except:
