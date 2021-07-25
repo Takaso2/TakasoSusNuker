@@ -444,16 +444,23 @@ async def idinfo(ctx, *, ID = None):
         pass
     if ID == None:
         await ctx.send("I forgot to put the ID.", delete_after=4)
-    try:
-        user = await slayer.fetch_user(ID)
-    except:
-        await ctx.send("Invalid ID.", delete_after=5)
-    date_format = "%a, %d %b %Y %I:%M %p"
-    hypesquad_class = str(user.public_flags.all()).replace('[<UserFlags.', '').replace('>]', '').replace('_',
+    else:
+        try:
+            user = await slayer.fetch_user(ID)
+            r = requests.get(f"https://discord.com/api/v9/users/{ID}/profile?with_mutual_guilds=false", headers=headers)
+            n = r.json()
+            if n['user']['banner'] == None:
+                bam = None
+            else:
+                bam = f"https://cdn.discordapp.com/banners/{ID}/{n['user']['banner']}.gif?size=512"
+        except:
+            await ctx.send("Invalid ID.", delete_after=5)
+        date_format = "%a, %d %b %Y %I:%M %p"
+        hypesquad_class = str(user.public_flags.all()).replace('[<UserFlags.', '').replace('>]', '').replace('_',
                                                                                                          ' ').replace(
         ':', '').title()
-    hypesquad_class = ''.join([i for i in hypesquad_class if not i.isdigit()])
-    em=discord.Embed(title="**〓〓〚Info Card〛〓〓**", description=f"""
+        hypesquad_class = ''.join([i for i in hypesquad_class if not i.isdigit()])
+        em=discord.Embed(title="**〓〓〚Info Card〛〓〓**", description=f"""
 **Username**
 ```
 {user.name}#{user.discriminator}
@@ -467,11 +474,15 @@ async def idinfo(ctx, *, ID = None):
 {hypesquad_class}
 ```
 """, color=0xffff00)
-    em.set_thumbnail(url=user.avatar_url)
-    try:
-        await ctx.send(embed=em, delete_after=15)
-    except:
-        print("\n[%s-%s] Failed to send message!" % (red()), reset())
+        em.set_thumbnail(url=user.avatar_url)
+        if bam == None:
+            print()
+        else:
+            em.set_image(bam)
+        try:
+            await ctx.send(embed=em, delete_after=15)
+        except:
+            print("\n[%s-%s] Failed to send message!" % (red()), reset())
 
 
 themembers = []
