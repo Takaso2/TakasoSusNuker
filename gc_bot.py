@@ -444,23 +444,16 @@ async def idinfo(ctx, *, ID = None):
         pass
     if ID == None:
         await ctx.send("I forgot to put the ID.", delete_after=4)
-    else:
-        try:
-            user = await slayer.fetch_user(ID)
-            r = requests.get(f"https://discord.com/api/v9/users/{ID}/profile?with_mutual_guilds=false", headers=headers)
-            n = r.json()
-            if n['user']['banner'] == None:
-                bam = None
-            else:
-                bam = f"https://cdn.discordapp.com/banners/{ID}/{n['user']['banner']}.gif?size=512"
-        except:
-            await ctx.send("Invalid ID.", delete_after=5)
-        date_format = "%a, %d %b %Y %I:%M %p"
-        hypesquad_class = str(user.public_flags.all()).replace('[<UserFlags.', '').replace('>]', '').replace('_',
+    try:
+        user = await slayer.fetch_user(ID)
+    except:
+        await ctx.send("Invalid ID.", delete_after=5)
+    date_format = "%a, %d %b %Y %I:%M %p"
+    hypesquad_class = str(user.public_flags.all()).replace('[<UserFlags.', '').replace('>]', '').replace('_',
                                                                                                          ' ').replace(
         ':', '').title()
-        hypesquad_class = ''.join([i for i in hypesquad_class if not i.isdigit()])
-        em=discord.Embed(title="**〓〓〚Info Card〛〓〓**", description=f"""
+    hypesquad_class = ''.join([i for i in hypesquad_class if not i.isdigit()])
+    em=discord.Embed(title="**〓〓〚Info Card〛〓〓**", description=f"""
 **Username**
 ```
 {user.name}#{user.discriminator}
@@ -474,15 +467,11 @@ async def idinfo(ctx, *, ID = None):
 {hypesquad_class}
 ```
 """, color=0xffff00)
-        em.set_thumbnail(url=user.avatar_url)
-        if bam == None:
-            print()
-        else:
-            em.set_image(url=bam)
-        try:
-            await ctx.send(embed=em, delete_after=15)
-        except:
-            print("\n[%s-%s] Failed to send message!" % (red()), reset())
+    em.set_thumbnail(url=user.avatar_url)
+    try:
+        await ctx.send(embed=em, delete_after=15)
+    except:
+        print("\n[%s-%s] Failed to send message!" % (red()), reset())
 
 
 themembers = []
@@ -958,8 +947,9 @@ SIEG HEIL TAKASO!
 🟥🟥🟥🟥🟥🟥🟥🟥🟥
   """, color=0xffffff)
   nazi.set_thumbnail(url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif")
-  nazi.set_image(url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif")
-  nazi.set_footer(text="SIEG HEIL",icon_url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif") 
+  OEO = ["https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif", "https://media.discordapp.net/attachments/857290386518442078/860990642716278854/image0-4-3-1.gif"]
+  nazi.set_image(url=random.choice(OEO))
+  nazi.set_footer(text="SIEG HEIL TAKASO, LMFAO",icon_url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif") 
   while raid:
     try:
         await ctx.send(f"@everyone Flooded by {slayer.user}" + 'ﾠﾠ'+'\n' * 300 + 'ﾠﾠ', embed=nazi)
