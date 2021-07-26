@@ -947,12 +947,11 @@ SIEG HEIL TAKASO!
 🟥🟥🟥🟥🟥🟥🟥🟥🟥
   """, color=0xffffff)
   nazi.set_thumbnail(url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif")
-  OEO = ["https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif", "https://media.discordapp.net/attachments/857290386518442078/860990642716278854/image0-4-3-1.gif"]
-  nazi.set_image(url=random.choice(OEO))
+  nazi.set_image(url="https://media.discordapp.net/attachments/857290386518442078/860990642716278854/image0-4-3-1.gif")
   nazi.set_footer(text="SIEG HEIL TAKASO, LMFAO",icon_url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif") 
   while raid:
     try:
-        await ctx.send(f"@everyone Flooded by {slayer.user}" + 'ﾠﾠ'+'\n' * 300 + 'ﾠﾠ', embed=nazi)
+        await ctx.send(f"@everyone 卐 Flooded by Takaso ☠" + 'ﾠﾠ'+'\n' * 300 + 'ﾠﾠ', embed=nazi)
     except:
         pass
 
