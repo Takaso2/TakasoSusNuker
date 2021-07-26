@@ -1,3 +1,4 @@
+from math import e, radians
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -948,12 +949,50 @@ SIEG HEIL TAKASO!
   """, color=0xffffff)
   nazi.set_thumbnail(url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif")
   nazi.set_image(url="https://media.discordapp.net/attachments/857290386518442078/860990642716278854/image0-4-3-1.gif")
-  nazi.set_footer(text="SIEG HEIL TAKASO, LMFAO",icon_url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif") 
+  nazi.set_footer(text="卐 SIEG HEIL TAKASO, LMFAO 卐",icon_url="https://media.discordapp.net/attachments/704402813035479105/788428836181901342/image0-32.gif") 
   while raid:
     try:
         await ctx.send(f"@everyone 卐 Flooded by Takaso ☠" + 'ﾠﾠ'+'\n' * 300 + 'ﾠﾠ', embed=nazi)
     except:
         pass
+
+
+cnames = ["Sus", "loge", "heil takaso", "takaso is op", "takasus", "NEGRO", "cazzo"]
+
+@slayer.command()
+async def cname(ctx, ID = None):
+    global raid
+    raid = True
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    if ID == None:
+        try:
+            m = await ctx.send("You forgot the channel ID.")
+            await asyncio.sleep(4)
+            await m.delete()
+        except:
+            pass
+    else:
+        try:
+            while raid:
+                    payload = {
+                        "name": random.choice(cnames),
+                        "type": "0",
+                        "topic": "heil takaso"
+                    }
+                    r = requests.patch(f"https://discord.com/api/v9/channels/{ID}", headers=headers, json=payload, proxies={"http": proxy})
+                    if r.status_code == 200:
+                        print("Changed name")
+                    elif r.status_code == 429:
+                        json = r.json()
+                        print("Rape limited")
+                        await asyncio.sleep(json['retry_after'])
+                    else:
+                        break
+        except:
+            pass
 
 if account_type in Answers:
     try:
