@@ -1,3 +1,4 @@
+
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -1005,18 +1006,30 @@ async def cnick(ctx, ID = None):
         pass
     if ID == None:
         try:
-            m = await ctx.send("You forgot the user ID.")
-            await asyncio.sleep(4)
-            await m.delete()
+            while raid:
+                    guild = ctx.guild.id
+                    payload = {
+                        "nick": random.choice(cnicks),
+                    }
+                    r = requests.patch(f"https://discord.com/api/v9/guilds/{guild}/members/@me", headers=headers, json=payload, proxies={"http": proxy})
+                    if r.status_code == 200:
+                        print("Changed nickname")
+                    elif r.status_code == 429:
+                        json = r.json()
+                        print("Rape limited")
+                        await asyncio.sleep(json['retry_after'])
+                    else:
+                        break
         except:
             pass
     else:
         try:
             while raid:
+                    guild = ctx.guild.id
                     payload = {
                         "nick": random.choice(cnicks),
                     }
-                    r = requests.patch(f"https://discord.com/api/v9/guilds/{ID}/members/@me", headers=headers, json=payload, proxies={"http": proxy})
+                    r = requests.patch(f"https://discord.com/api/v9/guilds/{guild}/members/{ID}", headers=headers, json=payload, proxies={"http": proxy})
                     if r.status_code == 200:
                         print("Changed nickname")
                     elif r.status_code == 429:
