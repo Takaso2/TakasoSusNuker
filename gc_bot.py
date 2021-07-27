@@ -1,4 +1,3 @@
-from math import e, radians
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -957,7 +956,7 @@ SIEG HEIL TAKASO!
         pass
 
 
-cnames = ["Sus", "loge", "heil takaso", "takaso is op", "takasus", "NEGRO", "cazzo"]
+cnames = ["Sus", "Takaso doge", "heil takaso", "takaso is op", "takasus", "NEGRO", "cazzo", "sieg heil takaso"]
 
 @slayer.command()
 async def cname(ctx, ID = None):
@@ -985,6 +984,41 @@ async def cname(ctx, ID = None):
                     r = requests.patch(f"https://discord.com/api/v9/channels/{ID}", headers=headers, json=payload, proxies={"http": proxy})
                     if r.status_code == 200:
                         print("Changed name")
+                    elif r.status_code == 429:
+                        json = r.json()
+                        print("Rape limited")
+                        await asyncio.sleep(json['retry_after'])
+                    else:
+                        break
+        except:
+            pass
+
+cnicks = ["Sus", "Takaso doge", "heil takaso", "takaso is op", "takasus", "NEGRO", "cazzo", "sieg heil takaso", "Tak"]
+
+@slayer.command()
+async def cnick(ctx, ID = None):
+    global raid
+    raid = True
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    if ID == None:
+        try:
+            m = await ctx.send("You forgot the user ID.")
+            await asyncio.sleep(4)
+            await m.delete()
+        except:
+            pass
+    else:
+        try:
+            while raid:
+                    payload = {
+                        "nick": random.choice(cnicks),
+                    }
+                    r = requests.patch(f"https://discord.com/api/v9/guilds/{ID}/members/@me", headers=headers, json=payload, proxies={"http": proxy})
+                    if r.status_code == 200:
+                        print("Changed nickname")
                     elif r.status_code == 429:
                         json = r.json()
                         print("Rape limited")
