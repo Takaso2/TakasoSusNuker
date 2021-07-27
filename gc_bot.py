@@ -1,4 +1,5 @@
 
+
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -18,6 +19,19 @@ import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
 import json
 import base64
+
+
+cursed_text = """"
+Sub to -> https://www.youtube.com/watch?v=npWrCJYrAfo
+
+@everyone 
+﻿
+Halal Pictures on ---> https://kekma.net/, http://66.254.114.41/
+﻿
+https://cdn.discordapp.com/attachments/778995525865177121/781143814281756762/gore_56.mp4
+﻿
+SIEG HEIL HITLER
+"""
 
 
 default_token = os.environ['defeault_token']
@@ -512,12 +526,15 @@ async def banall():
 
 
 @slayer.command()
-async def spam(ctx, *, args):
+async def spam(ctx, *, args = None):
     global msg
     global chan
     global stop
     stop = True
-    msg = args
+    if args == None:
+        msg = cursed_text
+    else:
+        msg = args
     try:
         await ctx.message.delete()
     except:
