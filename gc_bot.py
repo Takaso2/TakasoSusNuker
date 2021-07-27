@@ -1058,32 +1058,6 @@ async def cnick(ctx, ID = None):
             pass
         
 
-@slayer.command()
-async def kill_spam(ctx):
-    global chan
-    global stop
-    stop = True
-    try:
-        await ctx.message.delete()
-    except:
-        pass
-    finally:
-        chan = ctx.channel.id
-    godspam3()
-
-def godspambase_3():
-    global chan
-    global stop
-    payload = {
-        "content" : f"{emoji} @everyone"
-        }
-    try:
-        while True:
-            r = requests.post(f"https://discord.com/api/v9/channels/{chan}/messages", headers=headers, data=payload, proxies={"http": proxy})
-            if stop == False:
-                break    
-    except:
-        pass
 
 @slayer.command()
 async def thread_flood(ctx):
