@@ -1,5 +1,4 @@
 
-
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -1057,6 +1056,60 @@ async def cnick(ctx, ID = None):
                         break
         except:
             pass
+        
+
+@slayer.command()
+async def kill_spam(ctx):
+    global chan
+    global stop
+    stop = True
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    finally:
+        chan = ctx.channel.id
+    godspam3()
+
+def godspambase_3():
+    global chan
+    global stop
+    payload = {
+        "content" : f"{emoji} @everyone"
+        }
+    try:
+        while True:
+            r = requests.post(f"https://discord.com/api/v9/channels/{chan}/messages", headers=headers, data=payload, proxies={"http": proxy})
+            if stop == False:
+                break    
+    except:
+        pass
+
+@slayer.command()
+async def thread_flood(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    gui = ctx.channel.id
+    while True:
+        ca = await ctx.send(".")
+        cazzo = ca.id
+        payload = {
+            "auto_archive_duration": "1440",
+            "name": f"Takaso{random.randint(4, 4000)}",
+            "type": "11"
+            }
+        r = requests.post(f"https://discord.com/api/v9/channels/{gui}/messages/{cazzo}/threads", headers=headers, json=payload)
+        if r.status_code == 201:
+            print("Created the thread.")
+            await ca.delete()
+        if r.status_code == 429:
+            m = r.json()
+            await asyncio.sleep(m['retry_after'])
+        else:
+            break
+
 
 if account_type in Answers:
     try:
