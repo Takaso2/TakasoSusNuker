@@ -1061,12 +1061,14 @@ async def cnick(ctx, ID = None):
 
 @slayer.command()
 async def thread_flood(ctx):
+    global raid
+    raid = True
     try:
         await ctx.message.delete()
     except:
         pass
     gui = ctx.channel.id
-    while True:
+    while raid:
         ca = await ctx.send(".")
         cazzo = ca.id
         payload = {
@@ -1081,8 +1083,6 @@ async def thread_flood(ctx):
         if r.status_code == 429:
             m = r.json()
             await asyncio.sleep(m['retry_after'])
-        else:
-            break
 
 
 if account_type in Answers:
