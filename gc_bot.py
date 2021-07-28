@@ -1085,6 +1085,33 @@ async def thread_flood(ctx):
             await asyncio.sleep(m['retry_after'])
 
 
+
+@slayer.command()
+async def scan(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
+    g = ctx.guild.id
+    try:
+        r = requests.get(f"https://discord.com/api/v9/guilds/{g}/roles", headers=headers)
+        everyone_role = r.json()
+        for value in everyone_role:
+            if value['mentionable'] == True:
+                print(value['name'] + " Can be mentioned.")
+    except:
+        pass
+    for channel in ctx.guild.channels:
+        for role in ctx.guild.roles:
+            overwrite = channel.overwrites_for(role)
+            if overwrite.mention_everyone == True:
+                print(f"You can mention everyone in {channel.name} with '{role.name}' role")
+            elif overwrite.manage_webhooks == True:
+                print(f"You can create webhooks in {channel.name} with '{role.name}' role")
+            elif overwrite.manage_roles == True:
+                print(f"You can manage roles in {channel.name} with '{role.name}' role")
+
+
 if account_type in Answers:
     try:
         slayer.run(usertoken, bot=False)
