@@ -553,6 +553,9 @@ def godspambase():
     try:
         while True:
             r = requests.post(f"https://discord.com/api/v9/channels/{chan}/messages", headers=headers, data=payload, proxies={"http": proxy})
+            if r.status_code == 429:
+                k = r.json()
+                time.sleep(['retry_after'])
             if stop == False:
                 break    
     except:
@@ -1059,8 +1062,26 @@ async def cnick(ctx, ID = None):
         
 
 
+
+scraped_2 = []
+def message_scraper_sus():
+    global Channel_ID
+    headers = {
+        "Authorization": usertoken
+    }
+
+    r = requests.get(
+        f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
+    jsonn = json.loads(r.text)
+    for value in jsonn:
+        ll = value['id']
+        scraped_2.append(ll)
+
+
 @slayer.command()
-async def thread_flood(ctx):
+async def thread_flood(ctx, *, arg = None):
+    Channel_ID = ctx.channel.id
+    message_scraper_sus()
     global raid
     raid = True
     try:
@@ -1068,21 +1089,29 @@ async def thread_flood(ctx):
     except:
         pass
     gui = ctx.channel.id
+    if arg == None:
+        content = "HEIL TAKASO"
+    else:
+        content = arg
     while raid:
-        ca = await ctx.send(".")
-        cazzo = ca.id
+        p2 = {
+            "content": str(content)
+        }
         payload = {
             "auto_archive_duration": "1440",
             "name": f"Takaso{random.randint(4, 4000)}",
             "type": "11"
             }
-        r = requests.post(f"https://discord.com/api/v9/channels/{gui}/messages/{cazzo}/threads", headers=headers, json=payload)
-        if r.status_code == 201:
-            print("Created the thread.")
-            await ca.delete()
-        if r.status_code == 429:
-            m = r.json()
-            await asyncio.sleep(m['retry_after'])
+        async with aiohttp.ClientSession() as sesso:
+            for cazzo in scraped_2:
+                r = await sesso.post(f"https://discord.com/api/v9/channels/{gui}/messages/{cazzo}/threads", headers=headers, json=payload)
+                m = r.json()
+                h = m['id']
+                r2 = await sesso.post(f"https://discord.com/api/v9/channels/{h}/messages", headers=headers, json=p2)
+            if r.status == 201:
+                print("Created the thread.")
+            elif r.status == 429:
+                await asyncio.sleep(m['retry_after'])
 
 
 
@@ -1110,6 +1139,9 @@ async def scan(ctx):
                 print(f"You can create webhooks in {channel.name} with '{role.name}' role")
             elif overwrite.manage_roles == True:
                 print(f"You can manage roles in {channel.name} with '{role.name}' role")
+            elif overwrite.manage_channels == True:
+                print(f"You can manage {channel.name} with '{role.name}' role")
+ 
 
 
 if account_type in Answers:
