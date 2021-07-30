@@ -1080,6 +1080,7 @@ def message_scraper_sus():
 
 @slayer.command()
 async def thread_flood(ctx, *, arg = None):
+    global Channel_ID
     Channel_ID = ctx.channel.id
     message_scraper_sus()
     global raid
