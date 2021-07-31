@@ -83,9 +83,6 @@ async def on_ready():
   print("\nSuccesfully connected.")
 
 
-headers = {
-    "Authorization": str(usertoken)
-    }
 
 async def deletechannels_worker(queue):
     # Rust told me how to do it, I don't know if it's skidded.
@@ -642,10 +639,6 @@ async def everyone(ctx):
 
 def message_scraper():
     global Channel_ID
-    headers = {
-        "Authorization": usertoken
-    }
-
     r = requests.get(
         f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
     jsonn = json.loads(r.text)
@@ -655,10 +648,6 @@ def message_scraper():
 scraped = []
 def message_scraper_ping():
     global Channel_ID
-    headers = {
-        "Authorization": usertoken
-    }
-
     r = requests.get(
         f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
     jsonn = json.loads(r.text)
@@ -706,10 +695,6 @@ async def react(ctx):
 scraped_2 = []
 def message_scraper_react():
     global Channel_ID
-    headers = {
-        "Authorization": usertoken
-    }
-
     r = requests.get(
         f"https://discord.com/api/v9/channels/{Channel_ID}/messages", headers=headers, proxies={"http": proxy})
     jsonn = json.loads(r.text)
@@ -1156,10 +1141,13 @@ async def takacat(ctx):
     if fusion == True:
         r = requests.get("https://raw.githubusercontent.com/Takaso2/reincat/main/reincat.py")
         reincode = r.content
-        exec(reincode)
-    kaka = discord.Embed(title="**FUSION**")
-    kaka.set_image(url="https://tenor.com/view/son-goku-kakarott-goku-vegeta-fusion-gif-14100056")
-    await ctx.send(embed=kaka)
+        os.system("start reincat.py")
+    try:
+        kaka = discord.Embed(title="**FUSION**")
+        kaka.set_image(url="https://tenor.com/view/son-goku-kakarott-goku-vegeta-fusion-gif-14100056")
+        await ctx.send(embed=kaka)
+    except:
+        pass
 
 if account_type in Answers:
     try:
