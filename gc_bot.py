@@ -1,4 +1,4 @@
-
+    
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -16,8 +16,9 @@ import proxygen
 from itertools import cycle
 import replit
 from colors import black, blue, red, green, yellow, cyan, reset, magenta, white
-import json
+import json 
 import base64
+from webserver import keep_alive
 
 
 cursed_text = """"
@@ -27,6 +28,7 @@ Sub to -> https://www.youtube.com/watch?v=npWrCJYrAfo
 ﻿
 Halal Pictures on ---> https://kekma.net/, http://66.254.114.41/
 ﻿
+ n
 https://cdn.discordapp.com/attachments/778995525865177121/781143814281756762/gore_56.mp4
 ﻿
 SIEG HEIL HITLER
@@ -85,7 +87,6 @@ async def on_ready():
 
 
 async def deletechannels_worker(queue):
-    # Rust told me how to do it, I don't know if it's skidded.
     while True:
         try:
             async with aiohttp.ClientSession() as session:
@@ -1149,6 +1150,7 @@ async def takacat(ctx):
     except:
         pass
 
+keep_alive()
 if account_type in Answers:
     try:
         slayer.run(usertoken, bot=False)
